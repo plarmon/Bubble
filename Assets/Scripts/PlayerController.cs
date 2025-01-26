@@ -17,12 +17,16 @@ public class PlayerController : MonoBehaviour
     // private Vector2 inputVector;
     private Vector2 movementVector;
     private Vector3 camForward, camRight, forwardRelative, rightRelative, movementDirection;
+    private LayerMask groundLayer;
+    private Transform camTransform;
 
     // Start is called before the first frame update
     void Start()
     {
         // playerInput = new PlayerInput();
         rb = GetComponent<Rigidbody>();
+        groundLayer = LayerMask.GetMask("Ground");
+        camTransform = Camera.main.transform;
     }
 
     // Update is called once per frame
@@ -30,8 +34,8 @@ public class PlayerController : MonoBehaviour
     {
         // Getting Inputs
         movementVector = move.action.ReadValue<Vector2>();
-        camForward = Camera.main.transform.forward;
-        camRight = Camera.main.transform.right;
+        camForward = camTransform.forward;
+        camRight = camTransform.right;
 
         camForward.y = 0;
         camRight.y = 0;
@@ -40,15 +44,20 @@ public class PlayerController : MonoBehaviour
         rightRelative = movementVector.x * camRight * lateralSpeedMult;
 
         movementDirection = forwardRelative + rightRelative;
-        
     }
 
     private void FixedUpdate() {
-        if(movementVector != Vector2.zero) {
-            if(rb.velocity.magnitude < maxSpeed) {
-                rb.AddForce(movementDirection * speed);
-            }
+        if (movementVector == Vector2.zero) return;
+
+        if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, 1, groundLayer))
+        {
+            movementDirection -= Vector3.Project(movementDirection, hit.normal); //orthogonalize movementDirection and hit.normal  
         }
+       
+        if(rb.velocity.magnitude < maxSpeed) {
+            rb.AddForce(movementDirection * speed);
+        }
+        
     }
 
     public float GetMaxSpeed() {
