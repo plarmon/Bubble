@@ -21,7 +21,9 @@ public class CameraSpeedVisual : MonoBehaviour
     }
 
     private void Update(){
-        currentSpeed = player.GetRigidbody().velocity.magnitude;
+        Vector3 currentVelocity = player.GetRigidbody().velocity;
+        currentVelocity = new Vector3(currentVelocity.x, 0, currentVelocity.z);
+        currentSpeed = currentVelocity.magnitude;
         if(currentSpeed >= fovSpeedStart) {
             lerp = (currentSpeed - fovSpeedStart) / (player.GetMaxSpeed() - fovSpeedStart);
             cam.m_Lens.FieldOfView = Mathf.Lerp(startingFov, topSpeedFov, lerp);

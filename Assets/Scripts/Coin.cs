@@ -28,6 +28,7 @@ public class Coin : MonoBehaviour
     private void Collect() {
         _collider.enabled = false;
         _renderer.enabled = false;
+        transform.position =  new Vector3(0,-1000, 0);
         CoinManager.Instance.AddToScore(points);
     }
 }
