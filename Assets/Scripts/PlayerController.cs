@@ -13,6 +13,10 @@ public class PlayerController : MonoBehaviour
     // private PlayerInput playerInput;
     [SerializeField] private InputActionReference move;
     [SerializeField] private CinemachineFreeLook cam;
+    [SerializeField] private GameObject shadow;
+    private Vector3 shadowPoint;
+    [SerializeField] private GameObject playerModel;
+    private Vector3 playerPoint;
 
     // private Vector2 inputVector;
     private Vector2 movementVector;
@@ -27,6 +31,9 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         groundLayer = LayerMask.GetMask("Ground");
         camTransform = Camera.main.transform;
+
+        shadowPoint = transform.position - shadow.transform.position;
+        playerPoint = transform.position - playerModel.transform.position;
     }
 
     // Update is called once per frame
@@ -44,6 +51,10 @@ public class PlayerController : MonoBehaviour
         rightRelative = movementVector.x * camRight * lateralSpeedMult;
 
         movementDirection = forwardRelative + rightRelative;
+
+        shadow.transform.position = transform.position + shadowPoint;
+        playerModel.transform.position = transform.position - playerPoint;
+        playerModel.transform.forward = forwardRelative;
     }
 
     private void FixedUpdate() {
