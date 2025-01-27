@@ -8,10 +8,12 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] private float speed = 2;
     [SerializeField] private float lateralSpeedMult = 2;
-    [SerializeField] private float maxSpeed = 15f;
+    [SerializeField] private float maxSpeed = 15f; 
+    [SerializeField] private float jumpForce = 7;
     private Rigidbody rb;
     // private PlayerInput playerInput;
     [SerializeField] private InputActionReference move;
+    [SerializeField] private InputActionReference jump;
     [SerializeField] private CinemachineFreeLook cam;
     [SerializeField] private GameObject shadow;
     private Vector3 shadowPoint;
@@ -25,6 +27,8 @@ public class PlayerController : MonoBehaviour
     private Transform camTransform;
 
     public bool isGrounded = false;
+    private bool isJumping = false;
+    private float jumpTime;
 
     // Start is called before the first frame update
     void Start()
@@ -50,7 +54,15 @@ public class PlayerController : MonoBehaviour
         camRight.y = 0;
 
         shadow.transform.position = transform.position + shadowPoint;
-        playerModel.transform.position = transform.position - playerPoint;
+        if(playerModel) {
+            playerModel.transform.position = transform.position - playerPoint;
+        }
+
+        if(jump.action.WasPressedThisFrame() && GetIsGrounded()) {
+            // if(isJumping) {
+            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            // }
+        }
 
         if(movementVector.Equals(Vector2.zero)) return;
 
@@ -59,7 +71,9 @@ public class PlayerController : MonoBehaviour
 
         movementDirection = forwardRelative + rightRelative;
                 
-        playerModel.transform.forward = forwardRelative;
+        if(playerModel) {
+            playerModel.transform.forward = forwardRelative;
+        }
     }
 
     private void FixedUpdate() {

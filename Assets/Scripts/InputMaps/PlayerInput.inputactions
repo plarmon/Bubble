@@ -24,9 +24,9 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Boost",
+                    "name": "Jump",
                     "type": "Button",
-                    "id": "d81454b8-2d52-4dca-b389-fa463ce1ac90",
+                    "id": "6e2ac35f-4045-458e-933b-98e1249bb976",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -124,23 +124,23 @@
                 },
                 {
                     "name": "",
-                    "id": "35f54d5d-f127-4ab4-9861-a569d3478b0b",
-                    "path": "<Gamepad>/rightTrigger",
+                    "id": "e9487281-0cd8-4d17-b5fb-bf32f24e2d2a",
+                    "path": "<Gamepad>/buttonSouth",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Boost",
+                    "action": "Jump",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "60d1e4c5-2a53-43f6-868d-b4fc290e4fa0",
-                    "path": "<Keyboard>/shift",
+                    "id": "f851c882-e686-4880-8141-7eaf29bd16a8",
+                    "path": "<Keyboard>/space",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Boost",
+                    "action": "Jump",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
