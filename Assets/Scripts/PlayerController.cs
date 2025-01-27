@@ -24,6 +24,8 @@ public class PlayerController : MonoBehaviour
     private LayerMask groundLayer;
     private Transform camTransform;
 
+    public bool isGrounded = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -47,28 +49,43 @@ public class PlayerController : MonoBehaviour
         camForward.y = 0;
         camRight.y = 0;
 
+        shadow.transform.position = transform.position + shadowPoint;
+        playerModel.transform.position = transform.position - playerPoint;
+
+        if(movementVector.Equals(Vector2.zero)) return;
+
         forwardRelative = movementVector.y * camForward;
         rightRelative = movementVector.x * camRight * lateralSpeedMult;
 
         movementDirection = forwardRelative + rightRelative;
-
-        shadow.transform.position = transform.position + shadowPoint;
-        playerModel.transform.position = transform.position - playerPoint;
+                
         playerModel.transform.forward = forwardRelative;
     }
 
     private void FixedUpdate() {
-        if (movementVector == Vector2.zero) return;
+        if (movementVector.Equals(Vector2.zero)) return;
 
         if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, 1, groundLayer))
         {
+            Debug.DrawRay(transform.position, Vector3.Project(movementDirection, hit.normal), Color.red);
             movementDirection -= Vector3.Project(movementDirection, hit.normal); //orthogonalize movementDirection and hit.normal  
         }
        
         if(rb.velocity.magnitude < maxSpeed) {
             rb.AddForce(movementDirection * speed);
         }
-        
+    }
+
+    public bool GetIsGrounded() {
+        if(Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, 1, groundLayer)) {
+            // Debug.Log("Is Grounded");
+            isGrounded = true;
+            return true;
+        } else {
+            // Debug.Log("Isn't Grounded");
+            isGrounded = false;
+            return false;
+        }
     }
 
     public float GetMaxSpeed() {
