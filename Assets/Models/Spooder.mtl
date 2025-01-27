@@ -1,4 +1,5 @@
 newmtl SpooderMat
-Kd 0.9063317 0.9063317 0.9063317
+map_Kd SpooderTexture.png
+Kd 1 1 1
 d 1
 
