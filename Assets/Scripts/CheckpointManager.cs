@@ -15,7 +15,7 @@ public class CheckpointManager : MonoBehaviour
 
     private void Start()
     {
-        playerRB = playerTransform.GetComponent<Rigidbody>();
+        playerRB = playerTransform.GetComponentInChildren<Rigidbody>();
     }
 
     public void UpdateCheckpoint(int targetID)
@@ -28,6 +28,8 @@ public class CheckpointManager : MonoBehaviour
 
     public void ResetPlayer()
     {
+        Debug.Log("Reset");
+
         playerRB.velocity = Vector3.zero;
         playerRB.angularVelocity = Vector3.zero;
 
