@@ -64,16 +64,16 @@ public class PlayerController : MonoBehaviour
             // }
         }
 
+        if(playerModel) {
+            playerModel.transform.forward = Vector3.Lerp(playerModel.transform.forward, forwardRelative, 0.25f);
+        }
+
         if(movementVector.Equals(Vector2.zero)) return;
 
         forwardRelative = movementVector.y * camForward;
         rightRelative = movementVector.x * camRight * lateralSpeedMult;
 
         movementDirection = forwardRelative + rightRelative;
-                
-        if(playerModel) {
-            playerModel.transform.forward = forwardRelative;
-        }
     }
 
     private void FixedUpdate() {
