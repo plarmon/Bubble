@@ -7,7 +7,7 @@ public class MainMenuSceneController : MonoBehaviour
 {
     public void StartGame()
     {
-        //SceneManager.LoadScene();
+        SceneManager.LoadScene("Course Whitebox");
     }
 
     public void Quit()

@@ -9,6 +9,6 @@ EditorBuildSettings:
     path: Assets/Scenes/MainMenu.unity
     guid: a8dec762f8aadb6439e17ad0f25ad004
   - enabled: 1
-    path: Assets/Scenes/MainMenu.unity
-    guid: 4bc040b92111d1f4cbbf6bae960bb27e
+    path: Assets/Scenes/Course Whitebox.unity
+    guid: ec7a54506eb330e499daaa587601cb01
   m_configObjects: {}
