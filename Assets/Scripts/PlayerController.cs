@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -63,15 +64,19 @@ public class PlayerController : MonoBehaviour
         }
 
         if(jump.action.WasPressedThisFrame() && GetIsGrounded()) {
-            // if(isJumping) {
-            // rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-            // }
             isJumping = true;
         }
 
         if(movementVector.Equals(Vector2.zero)) return;
 
-        forwardRelative = movementVector.y * camForward;
+        if(rb.velocity.magnitude < maxSpeed) {
+            forwardRelative = movementVector.y * camForward;
+        } else {
+            if(movementVector.y < 0) {
+                forwardRelative  = movementVector.y * camForward;
+            }
+            forwardRelative = Vector3.zero;
+        }
         rightRelative = movementVector.x * camRight * lateralSpeedMult;
 
         movementDirection = forwardRelative + rightRelative;
@@ -85,24 +90,20 @@ public class PlayerController : MonoBehaviour
             Debug.DrawRay(transform.position, Vector3.Project(movementDirection, hit.normal), Color.red);
             movementDirection -= Vector3.Project(movementDirection, hit.normal); //orthogonalize movementDirection and hit.normal  
         }
-       
-        if(rb.velocity.magnitude < maxSpeed) {
-            if(!isJumping) {
-                rb.AddForce(movementDirection * speed);
-            } else {
-                rb.AddForce((movementDirection * speed) + (Vector3.up * jumpForce), ForceMode.Impulse);
-                isJumping = false;
-            }
+
+        if(isJumping) {
+            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            isJumping = false;
         }
+
+        rb.AddForce(movementDirection * speed);
     }
 
     public bool GetIsGrounded() {
         if(Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, 1, groundLayer)) {
-            // Debug.Log("Is Grounded");
             isGrounded = true;
             return true;
         } else {
-            // Debug.Log("Isn't Grounded");
             isGrounded = false;
             return false;
         }

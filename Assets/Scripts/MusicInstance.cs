@@ -8,7 +8,7 @@ public class MusicInstance : MonoBehaviour
 
     void Awake() {
         if(Instance != null && Instance != this) {
-            Destroy(this);
+            Destroy(this.gameObject);
         } else {
             Instance = this;
             DontDestroyOnLoad(this);

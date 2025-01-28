@@ -13,7 +13,7 @@ public class Coin : MonoBehaviour
     private void Start() {
         if(hasSetHeight) {
             RaycastHit hit;
-            if(Physics.Raycast(transform.position, Vector3.down, out hit, 3)) {
+            if(Physics.Raycast(transform.position, Vector3.down, out hit, 10)) {
                 transform.position = new Vector3(transform.position.x, hit.point.y + heightFromGround, transform.position.z);
             }
         }
