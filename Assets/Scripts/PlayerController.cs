@@ -58,14 +58,15 @@ public class PlayerController : MonoBehaviour
             playerModel.transform.position = transform.position - playerPoint;
         }
 
-        if(jump.action.WasPressedThisFrame() && GetIsGrounded()) {
-            // if(isJumping) {
-            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-            // }
-        }
-
         if(playerModel) {
             playerModel.transform.forward = Vector3.Lerp(playerModel.transform.forward, forwardRelative, 0.25f);
+        }
+
+        if(jump.action.WasPressedThisFrame() && GetIsGrounded()) {
+            // if(isJumping) {
+            // rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            // }
+            isJumping = true;
         }
 
         if(movementVector.Equals(Vector2.zero)) return;
@@ -86,7 +87,12 @@ public class PlayerController : MonoBehaviour
         }
        
         if(rb.velocity.magnitude < maxSpeed) {
-            rb.AddForce(movementDirection * speed);
+            if(!isJumping) {
+                rb.AddForce(movementDirection * speed);
+            } else {
+                rb.AddForce((movementDirection * speed) + (Vector3.up * jumpForce), ForceMode.Impulse);
+                isJumping = false;
+            }
         }
     }
 

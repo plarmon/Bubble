@@ -4,15 +4,18 @@ using UnityEngine;
 
 public class Coin : MonoBehaviour
 {
+    [SerializeField] private bool hasSetHeight = true;
     [SerializeField] private float heightFromGround = 1f;
     [SerializeField] private int points = 1;
     private Collider _collider;
     private Renderer _renderer;
 
     private void Start() {
-        RaycastHit hit;
-        if(Physics.Raycast(transform.position, Vector3.down, out hit, 3)) {
-            transform.position = new Vector3(transform.position.x, hit.point.y + heightFromGround, transform.position.z);
+        if(hasSetHeight) {
+            RaycastHit hit;
+            if(Physics.Raycast(transform.position, Vector3.down, out hit, 3)) {
+                transform.position = new Vector3(transform.position.x, hit.point.y + heightFromGround, transform.position.z);
+            }
         }
         
         _collider = GetComponent<Collider>();

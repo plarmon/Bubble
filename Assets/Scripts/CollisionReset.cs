@@ -6,6 +6,8 @@ public class CollisionReset : MonoBehaviour
 {
 
     public CheckpointManager checkpoint;
+    public CameraSpeedVisual cameraVisuals;
+    public AudioSource popSource;
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -13,6 +15,8 @@ public class CollisionReset : MonoBehaviour
         if(collision.transform.tag == "Reset")
         {
             checkpoint.ResetPlayer();
+            cameraVisuals.Reset();
+            popSource.Play();
         }        
     }
 }

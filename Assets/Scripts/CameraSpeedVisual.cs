@@ -72,4 +72,13 @@ public class CameraSpeedVisual : MonoBehaviour
             yield return null;
         }
     }
+
+    public void Reset() {
+        if(currentRoutine != null) {
+            StopCoroutine(currentRoutine);
+        }
+        speedLines.SetFloat("Radius", 2.25f);
+        speedLines.SetFloat("SpawnRate", 0);
+        currentRoutine = StartCoroutine(SetFov(startingFov));
+    }
 }
